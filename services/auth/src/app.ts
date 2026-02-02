@@ -3,6 +3,7 @@ import type { Express } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { logger } from "./utils/logger.js";
+import { GetErrorHandler, HttpError } from "@chatapp/shared";
 
 const createApp = (): Express => {
   const app: Express = express();
@@ -19,6 +20,11 @@ const createApp = (): Express => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
+  app.get("/health", (req, res, next) => {
+    res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+    return;
+  });
+
   // 404 handler
   app.use((req, res) => {
     logger.warn({ url: req.originalUrl }, "Route not found");
@@ -29,6 +35,8 @@ const createApp = (): Express => {
       path: req.originalUrl,
     });
   });
+
+  app.use(GetErrorHandler(logger));
   return app;
 };
 
