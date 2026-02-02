@@ -4,9 +4,15 @@ import app from "./app";
 
 const main = async () => {
   try {
+    const port = env.AUTH_SERVICE_PORT;
+    const envType = env.NODE_ENV;
     app.listen(env.AUTH_SERVICE_PORT, () => {
       logger.info(
-        `Auth service is running on port ${env.AUTH_SERVICE_PORT} in ${env.NODE_ENV} mode`,
+        {
+          PORT: port,
+          ENVIRONMENT: envType,
+        },
+        `Auth service is running`,
       );
     });
   } catch (error) {

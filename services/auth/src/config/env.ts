@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { createEnv } from "@chatapp/shared";
 import { z } from "@chatapp/shared";
 

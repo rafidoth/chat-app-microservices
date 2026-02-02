@@ -2,29 +2,29 @@ import pino from "pino";
 import type { Logger, LoggerOptions } from "pino";
 
 type CreateLoggerOptions = LoggerOptions & {
+  environment?: "development" | "production" | "test";
   name?: string;
 };
 
 export function createLogger(options: CreateLoggerOptions = {}): Logger {
-  const { name, ...pinoOptions } = options;
+  const { name, environment, ...pinoOptions } = options;
 
-  const transport =
-    process.env.NODE_ENV === "development"
-      ? {
-          target: "pino-pretty",
-          options: {
-            colorize: true,
-            translateTime: "SYS:standard",
-          },
-        }
-      : undefined;
+  const isDevelopment = environment?.trim() === "development";
 
-  const logger = pino({
+  const transport = isDevelopment
+    ? {
+        target: "pino-pretty",
+        options: {
+          colorize: true,
+          ignore: "pid,hostname",
+        },
+      }
+    : undefined;
+
+  return pino({
     name,
     level: process.env.LOG_LEVEL || "info",
     transport,
     ...pinoOptions,
   });
-
-  return logger;
 }
