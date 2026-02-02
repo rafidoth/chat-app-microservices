@@ -1,0 +1,26 @@
+{
+  "name": "@chatapp/auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json --resolve-full-paths",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit --project tsconfig.json",
+    "test": "echo \"No tests yet\"",
+    "format": "prettier --check \"src/**/*.ts\""
+  },
+  "private": true,
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.28.2",
+  "dependencies": {
+    "@chatapp/shared": "workspace:^",
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1"
+  }
+}
