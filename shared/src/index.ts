@@ -9,3 +9,6 @@ export { z } from "zod";
 // HTTP error handling utilities
 export * from "./http-error";
 export * from "./middlewares/httpErrorHandler";
+
+// Request validation utilities
+export * from "./http/request_validation";

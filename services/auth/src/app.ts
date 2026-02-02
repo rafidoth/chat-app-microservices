@@ -3,7 +3,8 @@ import type { Express } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { logger } from "./utils/logger.js";
-import { GetErrorHandler, HttpError } from "@chatapp/shared";
+import { GetErrorHandler } from "@chatapp/shared";
+import { registerRoutes } from "@/routes/index";
 
 const createApp = (): Express => {
   const app: Express = express();
@@ -20,10 +21,7 @@ const createApp = (): Express => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  app.get("/health", (req, res, next) => {
-    res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
-    return;
-  });
+  registerRoutes(app);
 
   // 404 handler
   app.use((req, res) => {
