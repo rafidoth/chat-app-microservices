@@ -1,5 +1,35 @@
 import express from "express";
 import type { Express } from "express";
-const app: Express = express();
+import cors from "cors";
+import helmet from "helmet";
+import { logger } from "./utils/logger.js";
 
-export default app;
+const createApp = (): Express => {
+  const app: Express = express();
+
+  // middlewares
+  app.use(helmet());
+  app.use(
+    cors({
+      origin: "*",
+      credentials: true,
+    }),
+  );
+
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+
+  // 404 handler
+  app.use((req, res) => {
+    logger.warn({ url: req.originalUrl }, "Route not found");
+
+    res.status(404).json({
+      status: 404,
+      message: "Sorry, we couldn't find that route!",
+      path: req.originalUrl,
+    });
+  });
+  return app;
+};
+
+export default createApp;
